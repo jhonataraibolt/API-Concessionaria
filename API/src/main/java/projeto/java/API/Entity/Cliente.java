@@ -18,7 +18,7 @@ public class Cliente {
     private String telefone;
 
     @Column(nullable = false, unique = true)
-    private String crf;
+    private String cpf;
 
     @Column(nullable = false)
     private String email;
@@ -47,12 +47,12 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public String getCrf() {
-        return crf;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCrf(String crf) {
-        this.crf = crf;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {
