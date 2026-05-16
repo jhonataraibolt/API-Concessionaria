@@ -1,4 +1,4 @@
-package projeto.java.API.Controller;
+package projeto.java.API.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import projeto.java.API.Entity.Cliente;
-import projeto.java.API.Model.ClienteRequestDTO;
-import projeto.java.API.Service.ClienteService;
+import projeto.java.API.entity.Cliente;
+import projeto.java.API.model.ClienteRequestDTO;
+import projeto.java.API.service.ClienteService;
 
 import java.util.List;
 
@@ -21,9 +21,8 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Cliente> cadastrar(@RequestBody @Valid ClienteRequestDTO dto){
-        Cliente cliente = new Cliente();
-        BeanUtils.copyProperties(dto,cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(cliente));
+        Cliente cliente = service.salvar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
     @GetMapping

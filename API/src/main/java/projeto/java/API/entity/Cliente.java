@@ -1,6 +1,7 @@
-package projeto.java.API.Entity;
+package projeto.java.API.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -9,15 +10,18 @@ import java.util.UUID;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID",updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false)
+    @Size(min = 11,max = 11)
     private String telefone;
 
     @Column(nullable = false, unique = true)
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @Column(nullable = false)
