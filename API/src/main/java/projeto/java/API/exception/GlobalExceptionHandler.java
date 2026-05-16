@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
         String detail = e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, detail);
         problema.setTitle("Erro de Validação");
+        problema.setProperty("timestamp", Instant.now());
         return problema;
     }
 
@@ -24,6 +25,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail HandleResourceNotFound(ResourceNotFoundException e) {
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         problema.setTitle("Recurso não encontrado");
+        problema.setProperty("timestamp", Instant.now());
         return problema;
     }
 
@@ -31,6 +33,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail HandleDuplicade(DuplicateResourceException e) {
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
         problema.setTitle("Conflito de dados");
+        problema.setProperty("timestamp", Instant.now());
         return problema;
     }
 }
