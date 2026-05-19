@@ -2,10 +2,8 @@ package projeto.java.API.exception;
 
 import org.springframework.http.*;
 import org.springframework.http.ProblemDetail;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.Instant;
 
@@ -14,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class) //Erro400
     public ProblemDetail handleValidationErrors(MethodArgumentNotValidException e) {
-        String detail = e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        String detail = e.getMessage();
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, detail);
         problema.setTitle("Erro de Validação");
         problema.setProperty("timestamp", Instant.now());

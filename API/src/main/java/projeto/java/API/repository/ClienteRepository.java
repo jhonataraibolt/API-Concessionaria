@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
+    List<Cliente> findByNomeContainingIgnoreCase(String nome);
     Optional<Cliente> findByCpf(String cpf);
-    List<Cliente> findByNome(String nome);
     boolean existsByCpf(String cpf);
 }

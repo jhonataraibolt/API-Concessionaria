@@ -1,7 +1,6 @@
 package projeto.java.API.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -16,12 +15,10 @@ public class Cliente {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    @Size(min = 11,max = 11)
+    @Column(nullable = false,length = 11)
     private String telefone;
 
-    @Column(nullable = false, unique = true)
-    @Size(min = 11, max = 11)
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
     @Column(nullable = false)
