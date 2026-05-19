@@ -18,10 +18,22 @@ public class Veiculo {
     @Column(nullable = false)
     private String modelo;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,length = 7)
     private String placa;
 
+    @Column(nullable = false)
     private Integer ano;
+
+    @Column(nullable = false)
+    private Double valor;
+
+    @Column(nullable = false)
+    private Double maximoDesconto;
+
+    @Column(nullable = false)
+    private Boolean vendido = false;
+
+    private Double valorVenda;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -76,5 +88,37 @@ public class Veiculo {
 
     public void setProprietario(Cliente proprietario) {
         this.proprietario = proprietario;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Double getMaximoDesconto() {
+        return maximoDesconto;
+    }
+
+    public void setMaximoDesconto(Double maximoDesconto) {
+        this.maximoDesconto = maximoDesconto;
+    }
+
+    public Boolean getVendido() {
+        return vendido;
+    }
+
+    public void setVendido(Boolean vendido) {
+        this.vendido = vendido;
+    }
+
+    public Double getValorVenda() {
+        return valorVenda;
+    }
+
+    public void setValorVenda(Double valorVenda) {
+        this.valorVenda = valorVenda;
     }
 }
