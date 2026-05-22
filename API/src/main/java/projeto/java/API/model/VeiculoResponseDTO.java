@@ -6,30 +6,28 @@ import java.util.UUID;
 
 public record VeiculoResponseDTO (
         UUID id,
+        UUID clienteId,
         String marca,
         String modelo,
-        String placa,
         Integer ano,
         Double valor,
+        String placa,
         Double maximoDesconto,
         Boolean vendido,
-        Double valorVenda,
-        UUID clienteId,
-        String nomeProprietario
+        Double valorVenda
 ) {
     public VeiculoResponseDTO(Veiculo veiculo) {
         this(
                 veiculo.getID(),
-        veiculo.getMarca(),
-        veiculo.getModelo(),
-        veiculo.getPlaca(),
-        veiculo.getAno(),
-        veiculo.getValor(),
-        veiculo.getMaximoDesconto(),
-        veiculo.getVendido(),
-        veiculo.getValorVenda(),
-        veiculo.getProprietario().getId(),
-        veiculo.getProprietario().getNome()
+                veiculo.getProprietario().getId(),
+                veiculo.getMarca(),
+                veiculo.getModelo(),
+                veiculo.getAno(),
+                veiculo.getValor(),
+                veiculo.getPlaca(),
+                veiculo.getMaximoDesconto(),
+                veiculo.getVendido(),
+                veiculo.getValorVenda()
         );
     }
 }

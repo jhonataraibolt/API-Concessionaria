@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import projeto.java.API.entity.Cliente;
 import projeto.java.API.entity.Veiculo;
 import projeto.java.API.exception.DuplicateResourceException;
-import projeto.java.API.exception.MethodArgumentNotValidException;
+import projeto.java.API.exception.ArgumentNotValidException;
 import projeto.java.API.exception.ResourceNotFoundException;
 import projeto.java.API.model.VeiculoRequestDTO;
 import projeto.java.API.model.VeiculoResponseDTO;
@@ -30,12 +30,12 @@ public class VeiculoService {
         }
 
         if(Boolean.TRUE.equals(dto.vendido()) && dto.valorVenda() == null){
-            throw new MethodArgumentNotValidException("O valor da venda é obrigatório para os veiculos vendidos");
+            throw new ArgumentNotValidException("O valor da venda é obrigatório para os veiculos vendidos");
         }
 
         Cliente proprietario = service.buscarPorId(dto.clienteId());
         Veiculo veiculo = new Veiculo();
-        BeanUtils.copyProperties(dto,veiculo);
+        BeanUtils.copyProperties(dto,veiculo); //usei o BeansUtils para copiar de um para outro
         veiculo.setProprietario(proprietario);
         repository.save(veiculo);
 
@@ -47,15 +47,15 @@ public class VeiculoService {
     }
 
     public VeiculoResponseDTO atualizar(UUID id, VeiculoUpdateDTO dto){
-        Veiculo veiculoExistente = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Veiculo com id " + id + "não encontrado!"));
+        Veiculo veiculoExistente = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Veiculo com id " + id + " não encontrado!"));
 
         if(Boolean.TRUE.equals(dto.vendido() )&& dto.valorVenda() == null){
-            throw new MethodArgumentNotValidException("O valor da venda é obrigatório para os veiculos vendidos");
+            throw new ArgumentNotValidException("O valor da venda é obrigatório para os veiculos vendidos");
         }
 
-        if (dto.marca() != null) veiculoExistente.setMarca(dto.marca());
-        if (dto.modelo() != null) veiculoExistente.setModelo(dto.modelo());
-        if (dto.ano() != null) veiculoExistente.setAno(dto.ano());
+        if (dto.marca() != null && !dto.marca().isEmpty()) veiculoExistente.setMarca(dto.marca());
+        if (dto.modelo() != null && !dto.modelo().isEmpty()) veiculoExistente.setModelo(dto.modelo());
+        if (dto.ano() != null ) veiculoExistente.setAno(dto.ano());
         if (dto.valor() != null) veiculoExistente.setValor(dto.valor());
         if (dto.maximoDesconto() != null) veiculoExistente.setMaximoDesconto(dto.maximoDesconto());
         if (dto.vendido() != null) veiculoExistente.setVendido(dto.vendido());
@@ -82,7 +82,7 @@ public class VeiculoService {
         return repository.findByModeloContainingIgnoreCase(modelo);
     }
 
-    public List<VeiculoResponseDTO> buscarComFiltros(String placa,String marca,String modelo){
+    public List<VeiculoResponseDTO> buscarComFiltros(String placa,String marca,String modelo){ //get buscando por placa, marca e modelo
 
         List<Veiculo> veiculos;
 

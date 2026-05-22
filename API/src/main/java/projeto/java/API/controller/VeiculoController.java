@@ -37,7 +37,7 @@ public class VeiculoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping //get de placa, marca e modelo
     public ResponseEntity<List<VeiculoResponseDTO>> buscar(@RequestParam(required = false) String placa, @RequestParam(required = false) String marca, @RequestParam(required = false) String modelo){
         return ResponseEntity.ok(service.buscarComFiltros(placa,marca,modelo));
     }

@@ -31,7 +31,7 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping //get de nome e cpf
     public ResponseEntity<List<ClienteResponseDTO>> buscarCliente(@RequestParam(required = false)String nome,@RequestParam(required = false) String cpf){
         return ResponseEntity.ok(service.buscarComFiltros(nome, cpf));
     }

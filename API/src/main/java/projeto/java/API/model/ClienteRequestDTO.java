@@ -9,11 +9,11 @@ public record ClienteRequestDTO(
    String nome,
 
    @NotBlank(message = "Telefone obrigatório")
-   @Size(min = 11,max = 11)
+   @Size(min = 11,max = 11,message = "Telefone é obrigatório e deve conter 11 números")
    String telefone,
 
    @NotBlank(message = "CPF obrigatório")
-   @Size(min = 11, max = 11)
+   @Size(min = 11, max = 11,message = "CPF é obrigatório e deve conter 11 números")
    String cpf,
 
    @NotBlank(message = "Email obrigatório")

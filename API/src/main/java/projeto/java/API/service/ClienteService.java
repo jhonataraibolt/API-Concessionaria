@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projeto.java.API.entity.Cliente;
+import projeto.java.API.exception.ArgumentNotValidException;
 import projeto.java.API.exception.DuplicateResourceException;
 import projeto.java.API.exception.ResourceNotFoundException;
 import projeto.java.API.model.ClienteRequestDTO;
@@ -27,7 +28,7 @@ public class ClienteService {
             throw new DuplicateResourceException("O CPF " + dto.cpf() + " já está cadastrado no sistema");
         }
         Cliente cliente = new Cliente();
-        BeanUtils.copyProperties(dto,cliente);
+        BeanUtils.copyProperties(dto,cliente); //usei o BeansUtils para copiar de um para outro
         repository.save(cliente);
         return new ClienteResponseDTO(cliente);
     }
@@ -38,12 +39,12 @@ public class ClienteService {
 
     public void Deletar(UUID id){
        Cliente cliente = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Cliente com id " + id + " não encontrado!"));
+
        boolean possuiVeiculos = repositoryVeic.existsByProprietario(cliente);
 
         if (possuiVeiculos) {
-            throw new IllegalStateException("Cliente possui veiculo, não pode ser deletado!");
+            throw new ArgumentNotValidException("Cliente possui veiculo, não pode ser deletado!");
         }
-
         repository.delete(cliente);
     }
 
@@ -58,7 +59,7 @@ public class ClienteService {
         return repository.findByCpf(cpf).orElseThrow(()-> new ResourceNotFoundException("Cliente não encontrado"));
     }
 
-    public List<ClienteResponseDTO> buscarComFiltros(String nome, String cpf){
+    public List<ClienteResponseDTO> buscarComFiltros(String nome, String cpf){ //get buscando nome e cpf
         List<Cliente> clientes;
 
         if (nome != null && !nome.isEmpty()) {
