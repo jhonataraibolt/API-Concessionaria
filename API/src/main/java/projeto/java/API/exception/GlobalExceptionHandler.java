@@ -1,37 +1,46 @@
 package projeto.java.API.exception;
 
 import org.springframework.http.*;
-import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.time.Instant;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class) //Erro400
-    public ProblemDetail handleValidationErrors(MethodArgumentNotValidException e) {
-        String detail = e.getMessage();
-        ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, detail);
-        problema.setTitle("Erro de Validação");
-        problema.setProperty("timestamp", Instant.now());
-        return problema;
+    @ExceptionHandler(MethodArgumentNotValidException.class) //Erro400 para DTOs
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Error handleValidationErrors(MethodArgumentNotValidException e) {
+        String messenger = e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        return new Error(messenger);
+    }
+
+    @ExceptionHandler(ArgumentNotValidException.class) // Erro400 para erros do codigo
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Error handleIllegalArgument(ArgumentNotValidException e) {
+        return new Error(e.getMessage());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class) //Erro404
-    public ProblemDetail HandleResourceNotFound(ResourceNotFoundException e) {
-        ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        problema.setTitle("Recurso não encontrado");
-        problema.setProperty("timestamp", Instant.now());
-        return problema;
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public Error HandleResourceNotFound(ResourceNotFoundException e) {
+        return new Error(e.getMessage());
     }
 
     @ExceptionHandler(DuplicateResourceException.class) //Erro 409
-    public ProblemDetail HandleDuplicade(DuplicateResourceException e) {
-        ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
-        problema.setTitle("Conflito de dados");
-        problema.setProperty("timestamp", Instant.now());
-        return problema;
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public Error HandleDuplicade(DuplicateResourceException e) {
+       return new Error(e.getMessage());
     }
+
+    public static record Error (
+            String mensagem
+    ){}
+
 }
