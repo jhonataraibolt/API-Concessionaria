@@ -80,4 +80,6 @@ Executar a Aplicação:Você pode rodar diretamente pela sua IDE (como o Intelli
 ./mvnw spring-boot:run
 
 
-📝 LicençaEste projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.Desenvolvido com ☕ por Jhonata Raibolt.
+📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes. Desenvolvido com ☕ por Jhonata Raibolt.
